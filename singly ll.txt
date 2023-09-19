@@ -1,0 +1,173 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node 
+{
+	int data;
+	struct node *next;
+};
+void linklist_traversal(struct node *ptr)
+{
+	while(ptr!=NULL)
+	{
+		printf("elements:%d\n",ptr->data);
+	
+	ptr=ptr->next;
+}
+}
+struct node* insert_at_first(struct node *head,int data)
+{
+    struct node *ptr=(struct node*)malloc(sizeof(struct node));
+    ptr->next=head;
+    ptr->data=data;
+    return ptr;
+}
+
+struct node* insert_at_index(struct node *head,int data,int index)
+{
+    struct node *ptr;
+    ptr=(struct node*)malloc(sizeof(struct node));
+    struct node *p=head;
+    int i=0;
+    while(i!=index-1)
+    {
+        p=p->next;
+        i++;
+    }
+    ptr->data=data;
+    ptr->next=p->next;
+    p->next=ptr;
+    return head;    
+}
+
+struct node* insert_at_end(struct node *head,int data)
+{
+    struct node *ptr;
+    ptr=(struct node*)malloc(sizeof(struct node));
+    ptr->data=data;
+    struct node *p=head;
+    while(p->next!=NULL)
+    {
+        p=p->next;
+
+    }
+    p->next=ptr;
+    ptr->next=NULL;
+    return head;
+}
+
+struct node* insert_at_node(struct node *head,struct node *prevnode,int data)
+{
+    struct node *ptr=(struct node*)malloc(sizeof(struct node));
+    ptr->data=data;
+    ptr->next=prevnode->next;
+    prevnode->next=ptr;
+    return head;
+}
+
+//deletion
+
+struct node* deletion_at_first(struct node *head)
+{	struct node *ptr;
+	ptr=head;
+	head=head->next;
+	free(ptr);
+	return head;
+}
+
+struct node* deletion_at_index(struct node *head,int index)
+{
+	struct node *p=head;
+	struct node *q=head->next;
+	int i=0;
+	for(i=0;i<index-1;i++)
+	{
+		p=p->next;
+		q=q->next;
+	}
+	p->next=q->next;
+	free(q);
+	return head;
+}
+struct node* deletion_at_end(struct node *head)
+{
+	struct node *p=head;
+	struct node *q=head->next;
+	while(q->next!=NULL)
+	{
+		p=p->next;
+		q=q->next;
+	}
+	p->next=NULL;
+	free(q);
+	return head;
+}
+
+struct node* deletion_at_value(struct node *head,int value)
+{
+   struct node *p=head;
+	struct node *q=head->next;
+    while(q->data!=value&&q->next!=NULL)
+    {
+        p=p->next;
+		q=q->next;
+    } 
+    if(q->data==value)
+    p->next=q->next;
+    free(q);
+    return head;
+}
+
+int main()
+{
+	struct node *head;
+	struct node *second;
+	struct node *third;
+	head=(struct node*)malloc(sizeof(struct node));
+	second=(struct node*)malloc(sizeof(struct node));
+	third=(struct node*)malloc(sizeof(struct node));
+	head->data=10;
+	head->next=second;
+	second->data=100;
+	second->next=third;
+	third->data=1000;
+	third->next=NULL;
+	printf("before insertion\n");
+	linklist_traversal(head);
+
+	printf("after insertion\n");
+	head=insert_at_first(head,50);
+    linklist_traversal(head);
+
+    printf("insertion after index\n");
+    head=insert_at_index(head,5,2);
+    linklist_traversal(head);
+
+    printf("after insertion in end\n");
+	head=insert_at_end(head,10000);
+    linklist_traversal(head);
+
+     printf("after insertion in a node\n");
+	head=insert_at_node(head,second,60);
+    linklist_traversal(head);
+
+    printf("deletion first node\n");
+    head=deletion_at_first(head);
+    linklist_traversal(head);
+    
+    printf("deletion at index\n");
+    head=deletion_at_index(head,2);
+    linklist_traversal(head);
+    
+    printf("deletion at end\n");
+    head=deletion_at_end(head);
+    linklist_traversal(head);
+
+    printf("deletion at value\n");
+    head=deletion_at_value(head,3);
+    linklist_traversal(head);
+
+
+
+	return 0;
+	
+	}
